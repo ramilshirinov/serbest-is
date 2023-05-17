@@ -11,16 +11,16 @@
 from pprint import pprint
 validate_number = "+994556375118"
 
-data_baza_ramil = [
-    {"name":"Tamerlan", "number":"+994556375118", "provider":"CIN"},
-    {"name":"Ramil", "number":"+994552555555", "provider":"CIN"},
-    {"name":"Elekber", "number":"+994552555555", "provider":"CIN"},
-    {"name":"tAmerlan", "number":"+994555123675", "provider":"CIN"},
+Database_Ramil = [
+    {"name":"Tamerlan", "number":"+994556375118", "provider":"Bakcell"},
+    {"name":"Ramil", "number":"+994552555555", "provider":"Bakcell"},
+    {"name":"Elekber", "number":"+994552555555", "provider":"Bakcell"},
+    {"name":"tAmerlan", "number":"+994555123675", "provider":"Bakcell"},
 ]
 provider_lists = [
-    {"num":"+99455", "provider":"CIN"},
-    {"num":"+99450", "provider": "SIM"},
-    {"num":"+99470", "provider": "NAR"},
+    {"num":"+99455", "provider":"Bakcell"},
+    {"num":"+99450", "provider": "Azercell"},
+    {"num":"+99470", "provider": "Nar"},
     {"num":"+99477", "provider": "NAR"},
 ]
 pvdl = ["+99455", "+99450", "+99470", "+99477"]
@@ -64,10 +64,10 @@ def add_contact(name: str, number: str, data: list) -> None:
             contact["number"] = number  
             contact["provider"] = select_provider(contact["number"])
         data.append(contact.copy())
-        print("Ugurlu emeliyyat")
+        print("Successful operation")
 
     else:
-        print("Nomre duzgen daxil edilmiyib")
+        print("The number was not entered correctly")
 
 
 def search_by_name(data: list) -> None:
@@ -80,7 +80,7 @@ def search_by_name(data: list) -> None:
             print("searched contact : " + str(sub))
 
     if searched == False:
-        print("Kontakt tapılmadı")
+        print("Contact not found")
 
     else:
         return search_by_name
@@ -98,7 +98,7 @@ def search_by_number(data: list) -> None:
                 print("searched contact : " + str(sub))
                 break
         if searched == False:
-            print("Kontakt tapılmadı")
+            print("Contact not found")
 
     else:
         print("TAMERLAN")
@@ -108,7 +108,7 @@ def search_by_number(data: list) -> None:
                 print("searched contact : " + str(sub))
 
 
-# Ada gore istifadeci sayi tapir. Istesez funksiya adini deyisin
+# Ada gore istifadeci sayi tapir. 
 def search_for_call_by_name(name: str, data: list) -> int:
     searched = False 
     user_count = 0
@@ -118,14 +118,14 @@ def search_for_call_by_name(name: str, data: list) -> int:
             user_count+=1
 
     if searched == False:
-        print("Kontakt tapılmadı")
+        print("Contact not found")
 
     return user_count
 
 def call_by_name(name: str, data: list):
     
     if search_for_call_by_name(name=name, data=data) > 1:
-        print("Hansı istifadəçiyə zəng edək: ")
+        print("Which user do you want to call?: ")
         searched = False
 
         #Axtarılan istifadəçilərin siyahısı
@@ -134,7 +134,7 @@ def call_by_name(name: str, data: list):
                 searched = True
                 print("searched contact : " + str(sub))
 
-        name = input("Ad daxil edin: ")
+        name = input("Enter name: ")
         searched = False
 
         for sub in data:
@@ -144,7 +144,7 @@ def call_by_name(name: str, data: list):
                 break
 
         if searched == False:
-            print("Kontakt tapılmadı")
+            print("Contact not found")
 
 
     elif search_for_call_by_name(name=name, data=data) == 1:
@@ -155,10 +155,10 @@ def call_by_name(name: str, data: list):
                 break
 
         if searched == False:
-            print("Kontakt tapılmadı")
+            print("Contact not found")
     
     else:
-        print("Bele bir kontakt yoxdur")
+        print("There is no such contact")
 
 def call_by_number(number: str, data: list):
     if number[0] == "0":
@@ -169,9 +169,11 @@ def call_by_number(number: str, data: list):
             print("called user : " + sub["name"])
             break
 
-        else: print("Anonim nomre zeng edilir")
+        else: print("An anonymous number is called")
 
-
+# 1--select_call
+# 2--select_search
+# 3--select_create_contact
 def main():
     proces_list = [
         {"1": "call"},
@@ -184,30 +186,30 @@ def main():
 
     while True:
 
-        proces = input("Qeyd olunan prosesi secin: ")
+        proces = input("Select the mentioned process: ")
         if proces == '1':
             proces_select = input("name or number: ")
             if proces_select == "name":
                 name = input("write name: ")
-                call_by_name(name, data_baza_ramil)
+                call_by_name(name, Database_Ramil)
             else:
                 number = input("write number: ")
-                call_by_number(number, data_baza_ramil)
+                call_by_number(number, Database_Ramil)
 
         if proces == '2':
             proces_select = input("name or number: ")
             if proces_select == "name":
 
-                search_by_name(data_baza_ramil)
+                search_by_name(Database_Ramil)
 
             else:
-                search_by_number(data_baza_ramil)
+                search_by_number(Database_Ramil)
 
         if proces == '3':
             name = input('write user name: ')
             number = input('write user number: ')
-            add_contact(name=name, number=number, data=data_baza_ramil)
-            pprint(data_baza_ramil)
+            add_contact(name=name, number=number, data=Database_Ramil)
+            pprint(Database_Ramil)
         proceed = input("Are you want to continue: yes or not: ")
         if proceed == 'yes':
             continue
